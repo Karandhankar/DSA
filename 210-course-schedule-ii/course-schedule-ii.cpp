@@ -1,64 +1,61 @@
 class Solution {
-public:
-    bool hasCycle;
-
-    void DFS(unordered_map<int, vector<int>> &adj, int u, vector<bool>& visited, stack<int>& st, vector<bool>& inRecursion)
+public: 
+    vector<int> topologicalSort(unordered_map<int, vector<int>> &adj, int n, vector<int>& indegree)
     {
-        visited[u] = true;
-        inRecursion[u] = true;
+        queue<int> que;
 
-        for(int &v : adj[u]){
+        vector<int> result;
+        int count = 0;
 
-            if(inRecursion[v] == true)
-            {
-                hasCycle = true;
-                return;
-            }
-
-            if(!visited[v]){
-                DFS(adj, v, visited, st, inRecursion);
+        for(int i=0; i<n; i++)
+        {
+            if(indegree[i] == 0){
+                result.push_back(i);
+                count++;
+                que.push(i);
             }
         }
-        st.push(u);
-        inRecursion[u] = false;
-     
+
+        while(!que.empty())
+        {
+            int u = que.front();
+            que.pop();
+
+            for(int &v : adj[u])
+            {
+                indegree[v]--;
+
+                if(indegree[v] == 0)
+                {
+                    result.push_back(v);
+                    count++;
+                    que.push(v);
+                }
+            }
+        }
+
+        if(count == n)
+        return result;
+
+        return {};
+
+
     }
-
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-        unordered_map<int, vector<int>> adj;
+        unordered_map<int, vector<int>>adj;
 
-        vector<bool> inRecursion(numCourses, false);
-        vector<bool> visited(numCourses, false);
+        vector<int> indegree(numCourses, 0); //kahn algo
 
-        for(auto &vec : prerequisites)
+        for(auto &vec: prerequisites)
         {
             int a = vec[0];
             int b = vec[1];
 
             adj[b].push_back(a);
+
+            indegree[a]++;
         }
 
-        stack<int> st;
-        for(int i=0; i<numCourses; i++)
-        {
-            if(!visited[i])
-            {
-                DFS(adj, i, visited, st, inRecursion);
-            }
-        }
-
-        if(hasCycle == true){
-            return {};
-        }
-
-        vector<int> result;
-
-        while(!st.empty())
-        {
-            result.push_back(st.top());
-            st.pop();
-        }
-
-        return result;
+        return topologicalSort(adj, numCourses, indegree);
     }
 };
