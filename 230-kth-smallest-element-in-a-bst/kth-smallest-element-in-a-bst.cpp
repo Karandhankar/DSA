@@ -12,10 +12,11 @@
 class Solution {
 public:
     int ans;
-    void inorder(TreeNode* root, int &k)
+
+    void inorder(TreeNode* root , int &k)
     {
         if(!root)
-        return ;
+        return;
 
         inorder(root->left, k);
         k--;
@@ -25,9 +26,8 @@ public:
         }
         inorder(root->right, k);
     }
-
     int kthSmallest(TreeNode* root, int k) {
-        inorder(root, k);
+        inorder(root , k);
         return ans;
     }
 };
