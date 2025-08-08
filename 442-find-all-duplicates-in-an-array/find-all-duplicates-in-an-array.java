@@ -1,20 +1,16 @@
 class Solution {
     public List<Integer> findDuplicates(int[] nums) {
-        List<Integer> result = new ArrayList<>();
-        int n = nums.length;
-        for(int i=0; i<n; i++)
-        {
-            int num = Math.abs(nums[i]);
-            int idx = num-1;
-
-            if(nums[idx]<0){
-                result.add(num);
+        List<Integer> ans = new ArrayList<>();
+        HashSet <Integer> hs = new HashSet<>();
+        for(int num : nums){
+            if(hs.contains(num)){
+                ans.add(num);
             }
-
-            nums[idx] *= -1;
+            else{
+                hs.add(num);
+            }
         }
-        return result;
-
+        return ans;
         
     }
 }
