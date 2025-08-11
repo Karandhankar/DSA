@@ -1,26 +1,30 @@
 class Solution {
 public:
-    string getSortedStr(int n)
+    unordered_set<string> st;
+    void buildSet()
     {
+        //2^p from p = 0 to 29
+        //convert to string
+        //sort it
+
+        for(int p=0; p<=29; p++)
+        {
+            string s = to_string(1 << p);
+            sort(begin(s),end(s));
+            st.insert(s);
+        }
+    }
+
+    bool reorderedPowerOf2(int n) {
+        if(st.empty())
+        {
+            buildSet(); //call only once
+        }
+
         string s = to_string(n);
         sort(begin(s), end(s));
-        return s;
-    }
-    
-    bool reorderedPowerOf2(int n) {
-        string s = getSortedStr(n);
 
-        //check all 2 power and see if it matches with s
-        
-        for(int p = 0; p<=29; p++)
-        {
-            if(s == getSortedStr(1 << p))
-            {
-                return true;
-            }
-        }
-        return false;
-
+        return st.count(s);
         
     }
 };
