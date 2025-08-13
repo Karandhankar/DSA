@@ -6,15 +6,8 @@ public:
             return false;
         }
 
-        if(n==1){
-            return true;
-        }
+        double x = log10(n)/log10(3);
 
-        if(n%3 != 0){
-            return false;
-        }
-
-        return isPowerOfThree(n/3);
-
+        return x == (int)x;
     }
 };
