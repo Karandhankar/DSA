@@ -30,12 +30,13 @@ class Solution {
     }
     private List<String> getTokens(String version)
     {
-        StringTokenizer tokenizer = new StringTokenizer(version, ".");
-        List<String> versionTokens = new ArrayList<>();
-        while(tokenizer.hasMoreTokens())
-        {
-            versionTokens.add(tokenizer.nextToken());
-        }
-        return versionTokens;
+       String[] tokens = version.split("\\.");
+       List<String> versionTokens = new ArrayList<>();
+       for(String token : tokens)
+       {
+         versionTokens.add(token);
+       }
+
+       return versionTokens;
     }
 }
